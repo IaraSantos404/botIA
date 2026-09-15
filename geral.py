@@ -54,7 +54,7 @@ def a_estrela(largura, altura, posicoes_paredes, posicoes_armadilhas,inicio, alv
 
 # Estratégia  
 # Responsável por:
-# função de avaliação.
+# função de avaliação
 def avaliar_vantagem(pos_robo , pos_inimigo, alvo):
     dist_robo = h_manhattan(pos_robo,alvo['pos'])
     dist_inimigo = h_manhattan(pos_inimigo,alvo['pos'])
@@ -62,7 +62,7 @@ def avaliar_vantagem(pos_robo , pos_inimigo, alvo):
     return alvo['valor'] + vantagem
 # Minimax;
 
-#def minimax():
+def minimax():
     # para implementar preciso saber como as informações dos robores vao ser armazenados p acessar
 
 # alfa-beta;
