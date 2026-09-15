@@ -1,5 +1,4 @@
 import heapq
-import arena
 # resumo geral so que precisa ser feito
 
 def validacao(x, y, paredes, largura, altura):
@@ -62,8 +61,28 @@ def avaliar_vantagem(pos_robo , pos_inimigo, alvo):
     return alvo['valor'] + vantagem
 # Minimax;
 
-def minimax():
-    # para implementar preciso saber como as informações dos robores vao ser armazenados p acessar
+def minimax(robo , inimigo_pos, minerios ):
+    sensor = robo.ler_sensores()
+    inferir = robo.baseDeConhecimento.interferir(sensor)
+
+    alvos_validos = {pos: dados for pos , dados in minerios.items() if pos not in robo.alvos_descartados}
+
+    if 'precisa_descarregar' in  inferir or (not alvos_validos and robo.carga > 0 ):
+        return robo.pos_base 
+    if not alvos_validos:
+        return None
+    melhor_alvo = None
+    melhor_valor = float('- inf')
+
+    for pos , dados in alvos_validos.items():
+        alvo = {'pos': pos, 'valor': dados['valor']}
+        valor_atual = avaliar_vantagem(robo.posicao, inimigo_pos, alvo)
+
+        if valor_atual > melhor_alvo:
+            melhor_valor = valor_atual
+            melhor_alvo = pos
+    return melhor_alvo
+
 
 # alfa-beta;
 

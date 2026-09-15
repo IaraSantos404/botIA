@@ -4,7 +4,8 @@ from logica import configurar_bc_robo
 class Agente:
     def __init__(self, pos_inicial):
 
-        self.posição = pos_inicial
+        self.posicao = pos_inicial
+        self.pos_base = pos_inicial
         self.bateria = 100
         self.carga = 0
         self.maxCarga = 3
