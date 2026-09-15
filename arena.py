@@ -1,4 +1,5 @@
 import random
+import os
 
 tipos_minerios = [('ouro', 50), ('prata', 30), ('diamante', 100), ('bronze', 10), ('rubi', 80)]
 
@@ -17,13 +18,38 @@ def sortear_minerio(x, y, tipos_minerios):
   tipo, valor = random.choice(tipos_minerios)
   return (x, y, tipo, valor)
 
+def desenhar_arena(largura, altura, paredes, armadilhas, minerios, agentes):
+    # Limpa a tela do terminal a cada novo quadro
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+    for y in range(altura):
+        for x in range(largura):
+            pos = (x, y)
+    
+            if pos == agentes[0].posicao:
+                print("A", end=" ")
+            elif pos == agentes[1].posicao:
+                print("B", end=" ")
+            elif pos in paredes:
+                print("#", end=" ")
+            elif pos in armadilhas:
+                print("-", end=" ")
+            elif pos in minerios:
+                inicial = minerios[pos]['tipo'][0]
+                print(inicial, end=" ")
+            else:
+                print(".", end=" ")
+        print()
+    print("-" * (largura * 2)) 
+
+
 
 def gerar_arena(largura, altura, n_paredes, n_minerios, n_armadilhas, seed=0):
   random.seed(seed)
 
   posicoes_proibidas = {
     (0,0), (0,1), (1,0),
-    (14,8), (14,7), (13,8)
+    (largura-1, altura-1), (largura-1, altura-2), (largura-2, altura-1)
   }
 
   posicoes_paredes = sortear_posicao(n_paredes, largura, altura, posicoes_proibidas)

@@ -2,8 +2,8 @@
 from logica import configurar_bc_robo
 
 class Agente:
-    def __init__(self, pos_inicial):
-
+    def __init__(self, pos_inicial, nome = "robo"):
+        self.nome = nome
         self.posicao = pos_inicial
         self.pos_base = pos_inicial
         self.bateria = 100
@@ -19,23 +19,24 @@ class Agente:
             'bateria_alta': self.bateria > 20,
             'carga_cheia': self.carga >= self.maxCarga,
         }
-    def tentar_coletar(self, mapa):
+    def tentar_coletar(self, minerios):
         sensores = self.lerSensores()
         interferencias = self.baseDeConhecimento.interferir(sensores)
 
-        if 'coleta_permitida' in interferencias and self.pos in mapa.minerios:
-            minerio = mapa.minerios[self.pos]
+        if 'coleta_permitida' in interferencias and self.posicao in minerios:
+            minerio = minerios[self.posicao]
             self.carga += 1
             self.pontuacao += minerio['valor']
-            mapa.remover_minerio(*self.pos)
+            del minerios[self.posicao]
             self.alvo = None
             return True
         return False
     def recarregar(self):
+        self.bateria = 100
         if self.carga > 0:
             self.pontuacao += self.carga * 10
             self.carga = 0
-            self.baseDeConhecimento
+            # self.baseDeConhecimento
             self.alvos_descartados.clear()
             self.alvo = None
     def deve_retornar(self):

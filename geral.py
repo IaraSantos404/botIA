@@ -13,7 +13,7 @@ def vizinhos(largura, altura, posicoes_parede, pos_atual):
 # Responsável por:
 # heurística;
 def h_manhattan(x,y):
-    return abs(x[0] - y[0]) + abs(x[1]+y[1])
+    return abs(x[0] - y[0]) + abs(x[1] - y[1])
 
 # A*
 def a_estrela(largura, altura, posicoes_paredes, posicoes_armadilhas,inicio, alvo):
@@ -62,40 +62,26 @@ def avaliar_vantagem(pos_robo , pos_inimigo, alvo):
 # Minimax;
 
 def minimax(robo , inimigo_pos, minerios ):
-    sensor = robo.ler_sensores()
+    sensor = robo.lerSensores()
     inferir = robo.baseDeConhecimento.interferir(sensor)
 
     alvos_validos = {pos: dados for pos , dados in minerios.items() if pos not in robo.alvos_descartados}
 
-    if 'precisa_descarregar' in  inferir or (not alvos_validos and robo.carga > 0 ):
+    if 'precisa_descarregar' in  inferir or 'precisa_recarregar' in inferir  or (not alvos_validos and robo.carga > 0 ):
         return robo.pos_base 
     if not alvos_validos:
         return None
     melhor_alvo = None
-    melhor_valor = float('- inf')
+    melhor_valor = float('-inf')
 
     for pos , dados in alvos_validos.items():
         alvo = {'pos': pos, 'valor': dados['valor']}
         valor_atual = avaliar_vantagem(robo.posicao, inimigo_pos, alvo)
 
-        if valor_atual > melhor_alvo:
+        if valor_atual > melhor_valor:
             melhor_valor = valor_atual
             melhor_alvo = pos
+
     return melhor_alvo
 
 
-# alfa-beta;
-
-# Lógica
-# Responsável por:
-
-# fatos;
-# regras;
-# encadeamento para frente.
-
-# Simulação
-# Responsável por:
-
-# turnos;
-# ordem das decisões;
-# encerramento da partida.
