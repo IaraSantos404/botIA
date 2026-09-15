@@ -37,5 +37,8 @@ class Agente:
             self.baseDeConhecimento
             self.alvos_descartados.clear()
             self.alvo = None
-
+    def deve_retornar(self):
+        if self.bateria <= 30 or self.carga >= self.maxCarga:
+            return True
+        return False
 # Preciso de uma forma de saber o quanto custa meu caminho, para determinar quando voltar
